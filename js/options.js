@@ -59,16 +59,27 @@ function applyPrivacyPolicy(policy) {
 }
 
 async function incognitoAllowedCheck() {
-  try {
-    const allowed = await new Promise((resolve, reject) => {
-      chrome.runtime.isAllowedIncognitoAccess((state) => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-          return;
-        }
-        resolve(state);
-      });
+  const getIncognitoAccess = () => new Promise((resolve, reject) => {
+    const checkFn = (chrome.runtime && chrome.runtime.isAllowedIncognitoAccess)
+      ? chrome.runtime.isAllowedIncognitoAccess
+      : chrome.extension && chrome.extension.isAllowedIncognitoAccess;
+
+    if (!checkFn) {
+      resolve(false);
+      return;
+    }
+
+    checkFn((state) => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+        return;
+      }
+      resolve(state);
     });
+  });
+
+  try {
+    const allowed = await getIncognitoAccess();
 
     const incognitoAllowed = document.getElementById("incognitoAllowed");
     const incognitoDisallowed = document.getElementById("incognitoDisallowed");
