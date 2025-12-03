@@ -1,3 +1,23 @@
+function applyI18n() {
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.dataset.i18n;
+    const message = chrome.i18n.getMessage(key);
+    if (message) {
+      element.textContent = message;
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-attr]").forEach((element) => {
+    const mappings = element.dataset.i18nAttr.split(",").map((pair) => pair.split(":").map((item) => item.trim()));
+    mappings.forEach(([attr, key]) => {
+      const message = chrome.i18n.getMessage(key);
+      if (attr && message) {
+        element.setAttribute(attr, message);
+      }
+    });
+  });
+}
+
 /* Check if extension is allowed in Incognito mode */
 function incognitoAllowedCheck() {
   chrome.extension.isAllowedIncognitoAccess((state) => {
@@ -36,8 +56,16 @@ function restoreOptions() {
 
 /* Event listeners */
 document.addEventListener('DOMContentLoaded', () => {
+  applyI18n();
   displayContent();
   restoreOptions();
 
   document.getElementById('policy').addEventListener('change', saveOptions);
+
+  const testLeakButton = document.getElementById('test-leak-btn');
+  if (testLeakButton) {
+    testLeakButton.addEventListener('click', () => {
+      window.open('https://www.browserscan.net/webrtc', '_blank', 'noopener,noreferrer');
+    });
+  }
 });
