@@ -1,0 +1,22 @@
+{
+  "appName": { "message": "WebRTC Leak Prevent" },
+  "appDesc": { "message": "Prevent WebRTC leaks using the official API." },
+  "openOptions": { "message": "Open options." },
+  "eyebrow": { "message": "Privacy control" },
+  "heroTitle": { "message": "WebRTC Leak Prevent" },
+  "heroSubtitle": { "message": "Modern dark theme with the same trusted controls." },
+  "policy_label": { "message": "WebRTC IP handling policy" },
+  "policy_hint": { "message": "Choose how WebRTC shares network information while you browse." },
+  "option_default_public": { "message": "Use the default public interface only" },
+  "option_public_private": { "message": "Use both public and private interfaces" },
+  "option_disable_udp": { "message": "Disable non-proxied UDP (force proxy)" },
+  "support_link": { "message": "What do these options mean?" },
+  "incognito_title": { "message": "Incognito protection" },
+  "incognito_allowed": { "message": "Enabled for private browsing." },
+  "incognito_disallowed": { "message": "Not enabled." },
+  "incognito_learn_more": { "message": "Learn more" },
+  "incognito_allow_help": { "message": "about allowing this extension in Incognito." },
+  "footer_github": { "message": "GitHub source" },
+  "test_leak_btn": { "message": "Test for Leaks" },
+  "brand_alt": { "message": "WebRTC Leak Prevent icon" }
+}
