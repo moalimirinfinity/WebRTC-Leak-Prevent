@@ -99,8 +99,65 @@ function displayContent() {
   incognitoAllowedCheck();
 }
 
+function initDropdown() {
+  const dropdown = document.getElementById("policyDropdown");
+  if (!dropdown) return;
+
+  const toggle = dropdown.querySelector(".dropdown-toggle");
+  const label = dropdown.querySelector(".dropdown-label");
+  const menu = dropdown.querySelector(".dropdown-menu");
+  const options = Array.from(dropdown.querySelectorAll(".dropdown-option"));
+
+  const setSelection = (value) => {
+    options.forEach((opt) => {
+      const isActive = opt.dataset.value === value;
+      opt.classList.toggle("active", isActive);
+      if (isActive && label) {
+        label.textContent = opt.textContent.trim();
+        toggle.dataset.value = value;
+      }
+    });
+  };
+
+  toggle.addEventListener("click", () => {
+    const isOpen = dropdown.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  toggle.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      const isOpen = dropdown.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    } else if (event.key === "Escape") {
+      dropdown.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  options.forEach((opt) => {
+    opt.addEventListener("click", () => {
+      setSelection(opt.dataset.value);
+      dropdown.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      saveOptions();
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!dropdown.contains(event.target)) {
+      dropdown.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  return { setSelection, getSelected: () => toggle.dataset.value || DEFAULT_POLICY };
+}
+
 async function saveOptions() {
-  const policy = document.getElementById("policy").value;
+  const dropdown = document.getElementById("policyDropdown");
+  const selected = dropdown?.querySelector(".dropdown-toggle")?.dataset.value || DEFAULT_POLICY;
+  const policy = selected;
   try {
     await setPolicyValue(policy);
     await applyPrivacyPolicy(policy);
@@ -110,11 +167,13 @@ async function saveOptions() {
 }
 
 async function restoreOptions() {
+  const dropdownControl = initDropdown();
   try {
     const storedPolicy = await getPolicy();
-    document.getElementById("policy").value = storedPolicy;
+    dropdownControl?.setSelection(storedPolicy);
   } catch (error) {
     console.error("Failed to restore WebRTC policy", error);
+    dropdownControl?.setSelection(DEFAULT_POLICY);
   }
 }
 
@@ -122,8 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
   applyI18n();
   displayContent();
   restoreOptions();
-
-  document.getElementById("policy").addEventListener("change", saveOptions);
 
   const testLeakButton = document.getElementById("test-leak-btn");
   if (testLeakButton) {

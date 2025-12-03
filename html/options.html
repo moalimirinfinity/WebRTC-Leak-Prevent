@@ -14,22 +14,33 @@
         <div>
           <p class="eyebrow" data-i18n="eyebrow">Privacy control</p>
           <h1 data-i18n="heroTitle">WebRTC Leak Prevent</h1>
-          <p class="lede" data-i18n="heroSubtitle">Modern dark theme with the same trusted controls.</p>
         </div>
       </div>
 
       <div id="content" class="card">
         <div class="field">
           <div>
-            <label for="policy" data-i18n="policy_label">WebRTC IP handling policy</label>
+            <label for="policyToggle" data-i18n="policy_label">WebRTC IP handling policy</label>
             <p class="hint" data-i18n="policy_hint">Choose how WebRTC shares network information while you browse.</p>
           </div>
           <div class="select-wrap">
-            <select id="policy">
-              <option value="default_public_interface_only" data-i18n="option_default_public">Use the default public interface only</option>
-              <option value="default_public_and_private_interfaces" data-i18n="option_public_private">Use both public and private interfaces</option>
-              <option value="disable_non_proxied_udp" data-i18n="option_disable_udp">Disable non-proxied UDP (force proxy)</option>
-            </select>
+            <div class="dropdown" id="policyDropdown">
+              <button class="dropdown-toggle" id="policyToggle" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="dropdown-label" data-i18n="option_default_public">Use the default public interface only</span>
+                <span class="dropdown-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="dropdown-menu" role="listbox">
+                <button class="dropdown-option" type="button" role="option" data-value="default_public_interface_only" data-i18n="option_default_public">
+                  Use the default public interface only
+                </button>
+                <button class="dropdown-option" type="button" role="option" data-value="default_public_and_private_interfaces" data-i18n="option_public_private">
+                  Use both public and private interfaces
+                </button>
+                <button class="dropdown-option" type="button" role="option" data-value="disable_non_proxied_udp" data-i18n="option_disable_udp">
+                  Disable non-proxied UDP (force proxy)
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
