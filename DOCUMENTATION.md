@@ -25,9 +25,7 @@ In your case, the default settings should prevent leaks.
 ---
 **I'm using a VPN in the form of a browser extension.**
 
-These VPNs are considered proxies in Chrome.
-
-Set *WebRTC IP handling policy* to `Disable non-proxied UDP (force proxy)`.
+Ensure your VPN extension controls WebRTC traffic. Otherwise, set *WebRTC IP handling policy* to `Disable non-proxied UDP (force proxy)`.
 
 ---
 **I'm using the built-in VPN feature in Opera.**

@@ -7,7 +7,7 @@ The only required permissions are 'privacy' and 'storage'.
 
 #### How it works
 
-In **Chromium version 48+**, the extension provides user control over `webRTCIPHandlingPolicy`, defaulting to `default_public_interface_only`.
+Requires **Chrome 88+ (Manifest V3)**. The extension provides user control over `webRTCIPHandlingPolicy`, defaulting to `default_public_interface_only`.
 
 #### Download
 
